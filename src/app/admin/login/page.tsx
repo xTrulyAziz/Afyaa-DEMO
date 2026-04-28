@@ -2,10 +2,10 @@
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
-import { createClient } from "@/lib/supabase/client";
 import Image from "next/image";
 import { Eye, EyeOff, LogIn } from "lucide-react";
 import LoadingSpinner from "@/components/ui/LoadingSpinner";
+import { loginAction } from "./actions";
 
 export default function AdminLoginPage() {
   const router = useRouter();
@@ -20,46 +20,10 @@ export default function AdminLoginPage() {
     setLoading(true);
     setError("");
 
-    const supabase = createClient();
+    const result = await loginAction(email, password);
 
-    // Step 1: attempt sign-in with Supabase
-    const { data, error: signInError } = await supabase.auth.signInWithPassword({
-      email,
-      password,
-    });
-
-    if (process.env.NODE_ENV === "development") {
-      console.log("[Admin Login] signInError:", signInError);
-      console.log("[Admin Login] user:", data?.user?.email ?? null);
-      console.log("[Admin Login] NEXT_PUBLIC_ADMIN_EMAIL:", process.env.NEXT_PUBLIC_ADMIN_EMAIL);
-    }
-
-    // Step 2: surface the real Supabase error
-    if (signInError) {
-      setError(
-        process.env.NODE_ENV === "development"
-          ? `Supabase: ${signInError.message}`
-          : "بيانات الدخول غير صحيحة. يرجى المحاولة مرة أخرى."
-      );
-      setLoading(false);
-      return;
-    }
-
-    if (!data.user) {
-      setError("لم يتم التعرف على المستخدم. يرجى المحاولة مرة أخرى.");
-      setLoading(false);
-      return;
-    }
-
-    // Step 3: check admin email AFTER Supabase confirms the user
-    const allowedEmail = process.env.NEXT_PUBLIC_ADMIN_EMAIL;
-    if (allowedEmail && data.user.email !== allowedEmail) {
-      await supabase.auth.signOut();
-      setError(
-        process.env.NODE_ENV === "development"
-          ? `غير مصرح: البريد المسجَّل هو "${data.user.email}" والمسموح هو "${allowedEmail}"`
-          : "غير مصرح لك بالوصول إلى لوحة التحكم."
-      );
+    if ("error" in result) {
+      setError(result.error);
       setLoading(false);
       return;
     }
@@ -144,7 +108,10 @@ export default function AdminLoginPage() {
           </p>
         </div>
 
-        <form onSubmit={handleSubmit} style={{ display: "flex", flexDirection: "column", gap: "1.25rem" }}>
+        <form
+          onSubmit={handleSubmit}
+          style={{ display: "flex", flexDirection: "column", gap: "1.25rem" }}
+        >
           <div>
             <label
               style={{
@@ -161,7 +128,7 @@ export default function AdminLoginPage() {
               type="email"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
-              placeholder="admin@afyaa.com"
+              placeholder="البريد الإلكتروني"
               required
               dir="ltr"
               style={{ ...inputStyle, textAlign: "left" }}
