@@ -38,6 +38,15 @@ function XIcon() {
   );
 }
 
+type FooterLink = {
+  icon: React.ReactElement;
+  href: string;
+  label: string;
+  external: boolean;
+};
+
+const isFooterLink = (item: FooterLink | null): item is FooterLink => item !== null;
+
 interface FooterProps {
   contact: ContactContent | null;
 }
@@ -130,56 +139,37 @@ export default function Footer({ contact }: FooterProps) {
 
             {/* 2-column responsive grid: contact info + socials together */}
             <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "0.7rem 1rem" }}>
-              {[
-                contact.phone && {
-                  icon: <Phone size={13} />,
-                  href: `tel:${contact.phone}`,
-                  label: contact.phone,
-                  external: false,
-                },
-                contact.whatsapp && {
-                  icon: <MessageCircle size={13} />,
-                  href: `https://wa.me/${contact.whatsapp.replace(/\s+/g, "").replace("+", "")}`,
-                  label: "واتساب",
-                  external: true,
-                },
-                contact.email && {
-                  icon: <Mail size={13} />,
-                  href: `mailto:${contact.email}`,
-                  label: contact.email,
-                  external: false,
-                },
-                contact.instagram && {
-                  icon: <InstagramIcon size={13} />,
-                  href: contact.instagram,
-                  label: "إنستغرام",
-                  external: true,
-                },
-                contact.twitter && {
-                  icon: <XIcon />,
-                  href: contact.twitter,
-                  label: "X",
-                  external: true,
-                },
-                contact.linkedin && {
-                  icon: <LinkedinIcon size={13} />,
-                  href: contact.linkedin,
-                  label: "لينكدإن",
-                  external: true,
-                },
-                contact.facebook && {
-                  icon: <FacebookIcon size={13} />,
-                  href: contact.facebook,
-                  label: "فيسبوك",
-                  external: true,
-                },
-              ]
-                .filter(Boolean)
+              {(
+                [
+                  contact.phone
+                    ? { icon: <Phone size={13} />, href: `tel:${contact.phone}`, label: contact.phone, external: false }
+                    : null,
+                  contact.whatsapp
+                    ? { icon: <MessageCircle size={13} />, href: `https://wa.me/${contact.whatsapp.replace(/\s+/g, "").replace("+", "")}`, label: "واتساب", external: true }
+                    : null,
+                  contact.email
+                    ? { icon: <Mail size={13} />, href: `mailto:${contact.email}`, label: contact.email, external: false }
+                    : null,
+                  contact.instagram
+                    ? { icon: <InstagramIcon size={13} />, href: contact.instagram, label: "إنستغرام", external: true }
+                    : null,
+                  contact.twitter
+                    ? { icon: <XIcon />, href: contact.twitter, label: "X", external: true }
+                    : null,
+                  contact.linkedin
+                    ? { icon: <LinkedinIcon size={13} />, href: contact.linkedin, label: "لينكدإن", external: true }
+                    : null,
+                  contact.facebook
+                    ? { icon: <FacebookIcon size={13} />, href: contact.facebook, label: "فيسبوك", external: true }
+                    : null,
+                ] as (FooterLink | null)[]
+              )
+                .filter(isFooterLink)
                 .map((item) => (
                   <a
-                    key={item!.label}
-                    href={item!.href}
-                    {...(item!.external ? { target: "_blank", rel: "noopener noreferrer" } : {})}
+                    key={item.label}
+                    href={item.href}
+                    {...(item.external ? { target: "_blank", rel: "noopener noreferrer" } : {})}
                     dir="ltr"
                     style={{
                       display: "flex",
@@ -196,9 +186,9 @@ export default function Footer({ contact }: FooterProps) {
                     onMouseOut={(e) => (e.currentTarget.style.color = "rgba(255,255,255,0.55)")}
                   >
                     <span style={{ color: "var(--primary-light)", display: "flex", alignItems: "center", flexShrink: 0 }}>
-                      {item!.icon}
+                      {item.icon}
                     </span>
-                    <span style={{ overflow: "hidden", textOverflow: "ellipsis" }}>{item!.label}</span>
+                    <span style={{ overflow: "hidden", textOverflow: "ellipsis" }}>{item.label}</span>
                   </a>
                 ))}
             </div>
