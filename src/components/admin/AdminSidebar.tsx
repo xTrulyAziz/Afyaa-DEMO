@@ -91,7 +91,7 @@ export default function AdminSidebar({ mobile }: AdminSidebarProps) {
             alt="أفياء"
             width={100}
             height={44}
-            style={{ objectFit: "contain", filter: "brightness(0) invert(1)", padding: "4px" }}
+            style={{ objectFit: "contain", padding: "4px" }}
           />
         </div>
         <div>

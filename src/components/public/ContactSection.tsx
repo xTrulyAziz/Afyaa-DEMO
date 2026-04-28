@@ -7,13 +7,43 @@ import {
   MapPin,
   MessageCircle,
   ExternalLink,
-  Globe2,
-  Share2,
-  Link2,
-  Rss,
   Send,
   CheckCircle2,
 } from "lucide-react";
+
+// Inline SVG social icons — lucide-react v1.11 ships no brand icons
+function FacebookIcon({ size = 16 }: { size?: number }) {
+  return (
+    <svg width={size} height={size} viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+      <path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z" />
+    </svg>
+  );
+}
+function InstagramIcon({ size = 16 }: { size?: number }) {
+  return (
+    <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+      <rect x="2" y="2" width="20" height="20" rx="5" ry="5" />
+      <circle cx="12" cy="12" r="4" />
+      <circle cx="17.5" cy="6.5" r="1" fill="currentColor" stroke="none" />
+    </svg>
+  );
+}
+function LinkedinIcon({ size = 16 }: { size?: number }) {
+  return (
+    <svg width={size} height={size} viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+      <path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z" />
+      <rect x="2" y="9" width="4" height="12" />
+      <circle cx="4" cy="4" r="2" />
+    </svg>
+  );
+}
+function XIcon() {
+  return (
+    <span style={{ fontSize: 13, fontWeight: 900, lineHeight: 1, fontFamily: "Georgia, serif", display: "inline-block" }}>
+      𝕏
+    </span>
+  );
+}
 import { motion } from "framer-motion";
 import ScrollReveal, { StaggerContainer, StaggerItem } from "@/components/ui/ScrollReveal";
 import type { ContactContent } from "@/types/database";
@@ -106,10 +136,10 @@ export default function ContactSection({ data }: ContactSectionProps) {
   };
 
   const socials = [
-    { icon: <Globe2 size={16} />, url: content.facebook, label: "فيسبوك" },
-    { icon: <Share2 size={16} />, url: content.instagram, label: "إنستغرام" },
-    { icon: <Link2 size={16} />, url: content.twitter, label: "تويتر" },
-    { icon: <Rss size={16} />, url: content.linkedin, label: "لينكدإن" },
+    { icon: <FacebookIcon size={16} />, url: content.facebook, label: "فيسبوك" },
+    { icon: <InstagramIcon size={16} />, url: content.instagram, label: "إنستغرام" },
+    { icon: <XIcon />, url: content.twitter, label: "X" },
+    { icon: <LinkedinIcon size={16} />, url: content.linkedin, label: "لينكدإن" },
   ].filter((s) => s.url);
 
   const inputStyle: React.CSSProperties = {
@@ -183,19 +213,33 @@ export default function ContactSection({ data }: ContactSectionProps) {
             {socials.length > 0 && (
               <div style={{ marginTop: "2rem" }}>
                 <p style={{ fontSize: "0.82rem", color: "var(--text-muted)", marginBottom: "0.75rem", fontWeight: 600 }}>تابعونا على</p>
-                <div style={{ display: "flex", gap: "0.6rem" }}>
+                <div style={{ display: "flex", flexWrap: "wrap", gap: "0.5rem" }}>
                   {socials.map((s) => (
                     <motion.a
                       key={s.label}
                       href={s.url}
                       target="_blank"
                       rel="noopener noreferrer"
-                      title={s.label}
-                      whileHover={{ y: -3, backgroundColor: "var(--primary)", color: "white" }}
+                      whileHover={{ y: -2, backgroundColor: "var(--primary)", color: "white", borderColor: "var(--primary)" }}
                       transition={{ duration: 0.2 }}
-                      style={{ width: 38, height: 38, borderRadius: "0.6rem", background: "white", border: "1px solid var(--border)", display: "flex", alignItems: "center", justifyContent: "center", color: "var(--primary)", textDecoration: "none", boxShadow: "var(--shadow-sm)" }}
+                      style={{
+                        display: "inline-flex",
+                        alignItems: "center",
+                        gap: "0.4rem",
+                        padding: "0.4rem 0.85rem",
+                        borderRadius: "2rem",
+                        background: "white",
+                        border: "1px solid var(--border)",
+                        color: "var(--primary)",
+                        textDecoration: "none",
+                        fontSize: "0.82rem",
+                        fontWeight: 600,
+                        boxShadow: "var(--shadow-sm)",
+                        direction: "ltr",
+                      }}
                     >
                       {s.icon}
+                      <span>{s.label}</span>
                     </motion.a>
                   ))}
                 </div>

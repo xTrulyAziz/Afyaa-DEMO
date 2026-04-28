@@ -90,7 +90,7 @@ export default function AdminLoginPage() {
               width={140}
               height={60}
               className="h-auto w-[140px] object-contain"
-              style={{ filter: "brightness(0) invert(1)", padding: "8px" }}
+              style={{ padding: "8px" }}
             />
           </div>
           <h1
