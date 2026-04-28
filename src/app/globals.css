@@ -1,0 +1,82 @@
+@import "tailwindcss";
+
+:root {
+  /* Dominant backgrounds */
+  --background: #FFFFFF;
+  --surface: #FFFFFF;
+  --surface-2: #F7F5F2;
+  --surface-3: #F0EDE8;
+
+  /* Text */
+  --foreground: #1C2B20;
+  --text-muted: #6B7B73;
+
+  /* Brand green — used as accent, not background */
+  --primary: #2D6A4F;
+  --primary-light: #52B788;
+  --primary-dark: #1B3A2D;
+  --primary-subtle: rgba(45, 106, 79, 0.07);
+  --primary-border: rgba(45, 106, 79, 0.18);
+
+  /* Earth accent */
+  --accent: #8B7355;
+  --accent-light: #C4A97A;
+  --accent-subtle: rgba(139, 115, 85, 0.08);
+
+  /* Borders & shadows */
+  --border: #E8E4DF;
+  --border-strong: #D4CFC9;
+  --shadow-sm: 0 1px 4px rgba(28, 43, 32, 0.06);
+  --shadow-md: 0 4px 16px rgba(28, 43, 32, 0.08);
+  --shadow-lg: 0 12px 40px rgba(28, 43, 32, 0.1);
+}
+
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-primary: var(--primary);
+  --color-primary-light: var(--primary-light);
+  --color-primary-dark: var(--primary-dark);
+  --color-accent: var(--accent);
+  --color-surface: var(--surface);
+  --color-surface-2: var(--surface-2);
+  --color-border: var(--border);
+  --color-text-muted: var(--text-muted);
+  --font-cairo: var(--font-cairo);
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  background: var(--background);
+  color: var(--foreground);
+  font-family: var(--font-cairo), 'Cairo', sans-serif;
+  direction: rtl;
+  text-align: right;
+  line-height: 1.7;
+}
+
+/* Scrollbar */
+::-webkit-scrollbar { width: 5px; }
+::-webkit-scrollbar-track { background: var(--surface-2); }
+::-webkit-scrollbar-thumb { background: var(--primary-light); border-radius: 10px; }
+
+/* Selection */
+::selection { background: rgba(82, 183, 136, 0.25); color: var(--primary-dark); }
+
+/* Focus visible */
+*:focus-visible {
+  outline: 2px solid var(--primary-light);
+  outline-offset: 2px;
+  border-radius: 4px;
+}
+
+img { max-width: 100%; height: auto; }
