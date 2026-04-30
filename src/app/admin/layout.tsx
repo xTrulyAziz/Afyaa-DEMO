@@ -24,8 +24,9 @@ export default async function AdminLayout({
   }
 
   // Defense-in-depth: verify admin email even after middleware check.
+  // Fail secure: if ADMIN_EMAIL is not configured, deny everyone.
   const allowedEmail = process.env.ADMIN_EMAIL;
-  if (allowedEmail && user.email !== allowedEmail) {
+  if (!allowedEmail || user.email !== allowedEmail) {
     redirect("/admin/login");
   }
 

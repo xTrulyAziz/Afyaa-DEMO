@@ -15,7 +15,8 @@ export async function requireAdmin(): Promise<void> {
   if (!user) redirect("/admin/login");
 
   const allowedEmail = process.env.ADMIN_EMAIL;
-  if (allowedEmail && user.email !== allowedEmail) {
+  // Fail secure: if ADMIN_EMAIL is not configured, deny everyone.
+  if (!allowedEmail || user.email !== allowedEmail) {
     await supabase.auth.signOut();
     redirect("/admin/login");
   }

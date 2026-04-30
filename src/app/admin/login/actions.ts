@@ -20,9 +20,14 @@ export async function loginAction(
     return { error: "بيانات الدخول غير صحيحة أو غير مصرح لك بالدخول" };
   }
 
-  // ADMIN_EMAIL check is server-side only — never sent to the browser
+  // ADMIN_EMAIL check is server-side only — never sent to the browser.
+  // Fail secure: if ADMIN_EMAIL is not configured, deny everyone.
   const allowedEmail = process.env.ADMIN_EMAIL;
-  if (allowedEmail && data.user.email !== allowedEmail) {
+  if (!allowedEmail) {
+    await supabase.auth.signOut();
+    return { error: "Admin access is not configured. Please contact the site owner." };
+  }
+  if (data.user.email !== allowedEmail) {
     await supabase.auth.signOut();
     if (process.env.NODE_ENV === "development") {
       console.warn("[Admin Login] Unauthorized email rejected");

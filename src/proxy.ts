@@ -39,24 +39,25 @@ export async function proxy(request: NextRequest) {
     console.log(`[proxy] ${pathname} | user: ${user?.email ?? "none"} | ADMIN_EMAIL: ${process.env.ADMIN_EMAIL}`);
   }
 
+  const allowed = process.env.ADMIN_EMAIL;
+
   // Protect all /admin/* routes except /admin/login
   if (!isLoginPage) {
     if (!user) {
       return NextResponse.redirect(new URL("/admin/login", request.url));
     }
-    const allowed = process.env.ADMIN_EMAIL;
-    if (allowed && user.email !== allowed) {
+    // Fail secure: if ADMIN_EMAIL is not configured, deny everyone.
+    if (!allowed || user.email !== allowed) {
       await supabase.auth.signOut();
       return NextResponse.redirect(new URL("/admin/login", request.url));
     }
   }
 
   // If already logged in and visiting /admin/login, redirect to dashboard
-  if (isLoginPage && user) {
-    const allowed = process.env.ADMIN_EMAIL;
-    if (!allowed || user.email === allowed) {
-      return NextResponse.redirect(new URL("/admin/dashboard", request.url));
-    }
+  // Only redirect if ADMIN_EMAIL is set and the user matches — otherwise let
+  // the login page render its own error rather than bouncing to dashboard.
+  if (isLoginPage && user && allowed && user.email === allowed) {
+    return NextResponse.redirect(new URL("/admin/dashboard", request.url));
   }
 
   return response;
