@@ -67,6 +67,17 @@ export interface TeamMember {
   updated_at: string;
 }
 
+export interface Partner {
+  id: string;
+  name: string;
+  logo_url: string | null;
+  website_url: string | null;
+  display_order: number;
+  is_published: boolean;
+  created_at: string;
+  updated_at: string;
+}
+
 export interface ContactContent {
   id: string;
   phone: string;

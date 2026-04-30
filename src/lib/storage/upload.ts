@@ -1,6 +1,6 @@
 import { createClient } from "@/lib/supabase/client";
 
-export type Bucket = "about" | "projects" | "team";
+export type Bucket = "about" | "projects" | "team" | "partners";
 
 export async function uploadImage(
   file: File,

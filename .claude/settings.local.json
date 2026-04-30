@@ -3,7 +3,9 @@
     "allow": [
       "mcp__supabase__list_projects",
       "mcp__supabase__list_tables",
-      "PowerShell(Select-String *)"
+      "PowerShell(Select-String *)",
+      "mcp__supabase__execute_sql",
+      "mcp__supabase__apply_migration"
     ]
   }
 }

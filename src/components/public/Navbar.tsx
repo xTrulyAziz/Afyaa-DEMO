@@ -7,6 +7,7 @@ import { Menu, X } from "lucide-react";
 const navLinks = [
   { label: "من نحن", href: "#about" },
   { label: "رؤيتنا", href: "#vision" },
+  { label: "شركاؤنا", href: "#partners" },
   { label: "مشاريعنا", href: "#projects" },
   { label: "فريقنا", href: "#team" },
   { label: "تواصل معنا", href: "#contact" },
