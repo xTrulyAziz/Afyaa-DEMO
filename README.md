@@ -18,7 +18,7 @@
 
 1. اذهب إلى [supabase.com](https://supabase.com) وأنشئ مشروعاً جديداً
 2. في **SQL Editor** الصق محتوى `supabase/schema.sql` ونفّذه
-3. في **Authentication → Users** أنشئ مستخدماً بالبريد `admin@afyaa.com`
+3. في **Authentication → Users** أنشئ مستخدماً بالبريد الذي ستضعه في `ADMIN_EMAIL`
 
 ### 2. إعداد البيئة
 
@@ -30,8 +30,7 @@ cp .env.example .env.local
 ```
 NEXT_PUBLIC_SUPABASE_URL=https://xxxx.supabase.co
 NEXT_PUBLIC_SUPABASE_ANON_KEY=eyJhbGci...
-ADMIN_EMAIL=admin@afyaa.com
-NEXT_PUBLIC_ADMIN_EMAIL=admin@afyaa.com
+ADMIN_EMAIL=your-admin-email@example.com
 ```
 
 ### 3. تشغيل المشروع

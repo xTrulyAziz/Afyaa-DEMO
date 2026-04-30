@@ -32,7 +32,7 @@ Open `.env.local` and add the three missing values:
 ### 3. ADMIN_EMAIL
 - Set the email you will use to log in as admin:
   ```
-  ADMIN_EMAIL=admin@afyaa.com
+  ADMIN_EMAIL=your-admin-email@example.com
   ```
 
 ---
